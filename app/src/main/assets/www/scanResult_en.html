@@ -1,0 +1,55 @@
+<! DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf - 8">
+<meta name = "viewport" content = "width = device-width, user-scalable = no">
+    <meta http-equiv = "content-script-type" content = "text/javascript">
+    <meta http-equiv = "content-style-type" content = "text/css">
+<title> webview sample </ title>
+<link rel = "stylesheet" type = "text / css" href = "./css/default.css">
+<script src = "./js/jquery - 1.7.2.min.js" type = "text/javascript"> </script>
+<script>
+$ (function () {
+// Obtain NfcID from Activity
+var nID = Android.getNfcId ();
+// Set terminal specific information
+var cliInfo = {
+boothNo: 123,
+goodNo: 99
+};
+// Add NfcID to unique information
+cliInfo.nfcId = nID
+// Android.showToast (JSON.stringify (cliInfo));
+// Acquire data for transmission
+sendData = encodeURI (JSON.stringify (cliInfo));
+// server URL
+var url = 'http://192.168.100.100: 3000/like';
+// Callback function upon successful transmission
+var cb = function (json) {
+// Android.showToast (json.status);
+// Android.showToast (json.location);
+Android.showToast ('NFC ID =' + json.nfcid);
+};
+// Data transmission
+$ .ajax ({// Use jQuery.ajax () to prevent POST caching
+url: url,
+cache: false,
+data: 'q =' + sendData,
+success: cb
+});
+// Transit to Top Page Activity
+$ ('# gotop'). click (function () {
+Android.goIndex ();
+});
+});
+</script>
+</head>
+<body>
+<div style = "margin-top: 200px; text-align: center;">
+<span style = "font - size: 7em; font - weight: bold;">
+Thanks!
+</span>
+<p id = "gotop" style = "margin: 50px 20px 0 0; text-align: right; font-size: 1em;"> → </ p>
+</div>
+</body>
+</html>
